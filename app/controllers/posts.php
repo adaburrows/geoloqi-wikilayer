@@ -9,8 +9,8 @@ class posts extends controller {
 
   public function index($page = 0) {
     $data = array();
-    if (array_key_exists('page', app::$named_params))
-      $page = app::$named_params['page'];
+    if (array_key_exists('page', router::$named_params))
+      $page = router::$named_params['page'];
     $limit = 10;
     $offset = $page * $limit;
 
