@@ -1,6 +1,12 @@
 <?php
 class wikilayer extends controller {
 
+/*
+ * wikilayer::index()
+ * -----------------------------------
+ * Randomly, this grbs the articles around (45.511, -122.682)!
+ * =============================================================================
+ */
   public function index() {
     $lat = 45.511;
     $lng = -122.682;
@@ -9,15 +15,27 @@ class wikilayer extends controller {
     return($data);
   }
 
+/*
+ * wikilayer::getWithinRadius()
+ * -----------------------------------
+ * Grabs all wikipedia articles within a given radius
+ * If duplicates are found, they are removed.
+ * =============================================================================
+ */
   public function getWithinRadius($lat, $lng, $radius = 400) {
+    // URL to call to grab geocoded articles
     $url = "http://api.wikilocation.org/articles?lat={$lat}&lng={$lng}&radius={$radius}&format=json";
+    // Grab the article info
     $json = $this->get_data($url);
     $data = json_decode($json, true);
     $articles = $data['articles'];
 
-    $articles_to_return = array();
-    $articles_to_delete = array();
-    $article_ids = array();
+    $articles_to_return = array(); // Array of articles to return
+    $articles_to_delete = array(); // Array of articles that are duplicate
+    $article_ids = array();        // List of all article ids, used for filtering
+
+    // Loop through all the articles, checking if it is already in the list.
+    // Add it if it isn't.
     foreach($articles as $article) {
       if (in_array($article['id'], $article_ids)){
         $articles_to_delete[] = $article['id'];
@@ -31,6 +49,8 @@ class wikilayer extends controller {
         );
       }
     }
+
+    // Filter out all articles that are duplicated
     foreach($articles_to_return as $index => $article) {
       if (in_array($article['id'], $articles_to_delete)) {
         unset($articles_to_return[$index]);
@@ -43,10 +63,17 @@ class wikilayer extends controller {
         }
       }
     }
-   return $articles_to_return;
 
+   // Finally return all the data.
+   return $articles_to_return;
   }
 
+/*
+ * wikilayer::getSignificantSentence()
+ * -----------------------------------
+ * Grabs the first significant sentence from a wikipedia article
+ * =============================================================================
+ */
   public function getSignificantSentence($id) {
     $url = 'http://en.wikipedia.org/w/index.php?curid=' . $id;
     $html = $this->get_data($url);
