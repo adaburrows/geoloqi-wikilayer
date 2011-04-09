@@ -22,6 +22,7 @@ class wikilayer_datasource extends http_request {
     // Grab the article info
     $this->do_request();
     $json = $this->get_data();
+    print_r($json);
     $data = json_decode($json, true);
     $articles = $data['articles'];
 
