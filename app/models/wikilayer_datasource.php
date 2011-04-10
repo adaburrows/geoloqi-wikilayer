@@ -12,7 +12,8 @@ class wikilayer_datasource extends http_request {
  */
   public function getWithinRadius($lat, $lng, $radius = 400) {
     // URL to call to grab geocoded articles
-    $this->request_params['url'] = 'http://api.wikilocation.org/articles';
+    $this->request_params['host'] = 'api.wikilocation.org';
+    $this->request_params['path'] = '/articles';
     $this->request_params['query_params'] = array(
       'lat' => $lat,
       'lng' => $lng,
@@ -22,7 +23,6 @@ class wikilayer_datasource extends http_request {
     // Grab the article info
     $this->do_request();
     $json = $this->get_data();
-    print_r($json);
     $data = json_decode($json, true);
     $articles = $data['articles'];
 
@@ -72,7 +72,8 @@ class wikilayer_datasource extends http_request {
  */
   public function getSignificantSentence($id) {
     // Set up the request
-    $this->request_params['url'] = 'http://en.wikipedia.org/w/index.php';
+    $this->request_params['host'] = 'en.wikipedia.org';
+    $this->request_params['path'] = '/w/index.php';
     $this->request_params['query_params'] = array(
       'curid' => $id
     );
