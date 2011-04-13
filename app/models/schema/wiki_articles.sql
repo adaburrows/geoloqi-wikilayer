@@ -16,16 +16,11 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pages`
+-- Table structure for table `wiki_articles`
 --
 
-CREATE TABLE IF NOT EXISTS `pages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `keywords` varchar(255) NOT NULL,
-  `content` text,
+CREATE TABLE IF NOT EXISTS `wiki_articles` (
+  `id` char(20) NOT NULL AUTO_INCREMENT,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

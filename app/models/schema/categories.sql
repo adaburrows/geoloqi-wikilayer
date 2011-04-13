@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `cat_name` varchar(255) DEFAULT NULL,
   `cat_slug` varchar(255) DEFAULT NULL,
   `cat_desc` varchar(255) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
+  `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`cat_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;

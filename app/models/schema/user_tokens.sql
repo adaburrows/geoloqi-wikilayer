@@ -16,16 +16,12 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pages`
+-- Table structure for table `user_tokens`
 --
 
-CREATE TABLE IF NOT EXISTS `pages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `keywords` varchar(255) NOT NULL,
-  `content` text,
+CREATE TABLE IF NOT EXISTS `user_tokens` (
+  `id` char(20) NOT NULL AUTO_INCREMENT,
+  `tokens` char(32) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

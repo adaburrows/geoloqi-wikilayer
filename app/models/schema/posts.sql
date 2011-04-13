@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `keywords` varchar(255) DEFAULT NULL,
   `content` text,
   `category_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
+  `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`post_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;

@@ -4,7 +4,7 @@ class wikilayer extends controller {
   private $geoloqi;
   private $wikisource;
   private $wiki_hist;
-  private $user_store;
+  private $user_tokens;
 
   private $radius;
 
@@ -21,11 +21,12 @@ class wikilayer extends controller {
     
     $this->wikisource = app::getModel('wikilayer_datasource');
     $this->wiki_hist = app::getModel('wiki_article_history');
+    $this->user_tokens = app::getModel('user_tokens');
   }
 
 /*
  * wikilayer::index()
- * -----------------------------------
+ * ------------------
  * Randomly, this grbs the articles around (45.511, -122.682)!
  * =============================================================================
  */
@@ -33,21 +34,25 @@ class wikilayer extends controller {
     $lat = 45.511;
     $lng = -122.682;
     $data = $this->wikisource->getWithinRadius($lat, $lng, $this->radius);
+    $data = $this->wikisource->filterArticles($data);
     return($data);
   }
 
 /*
  * wikilayer::update()
- * -----------------------------------
- * Randomly, this grbs the articles around (45.511, -122.682)!
+ * -------------------
+ * This function goes through all users grabs their location
  * =============================================================================
  */
   public function update() {
     $data = array();
-    $users = $this->user_store->getUsers();
+    $users = $this->user_tokens->all();
     foreach ($users as $user) {
-      
-      $data = $this->wikisource->getWithinRadius($lat, $lng, $radius);
+      $this->geoloqi->restore_token($user['token']);
+      $this->geoloqi->getLocation();
+      $articles = $this->wikisource->getWithinRadius($lat, $lng, $radius);
+      $articles = $this->wikisource->filterArticles($articles, $this->wiki_hist->all());
+      $this->_add_articles_to_layer($articles);
     }
     return($data);
   }
@@ -76,6 +81,16 @@ class wikilayer extends controller {
     }
 
     return($data);
+  }
+
+/*
+ * wikilayer::_add_articles_to_layer)
+ * ----------------------------------
+ * adds new articles to the geoloqi layer.
+ * =============================================================================
+ */
+  public function _add_articles_to_layer($articles) {
+    
   }
 
 }

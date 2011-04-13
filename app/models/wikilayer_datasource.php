@@ -25,10 +25,19 @@ class wikilayer_datasource extends http_request {
     $json = $this->get_data();
     $data = json_decode($json, true);
     $articles = $data['articles'];
+    return $articles;
+  }
 
+/*
+ * wikilayer::filterArticles()
+ * ---------------------------
+ * Filter duplicate articles.
+ * =============================================================================
+ */
+  public function filterArticles($articles, $old_articles = array()) {
     $articles_to_return = array(); // Array of articles to return
     $articles_to_delete = array(); // Array of articles that are duplicate
-    $article_ids = array();        // List of all article ids, used for filtering
+    $article_ids = $old_articles;  // List of all article ids, used for filtering
 
     // Loop through all the articles, checking if it is already in the list.
     // Add it if it isn't.
