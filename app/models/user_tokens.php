@@ -7,11 +7,11 @@ class user_tokens extends db {
       'user_tokens' => array(
         'id',
         'token'
-      );
+      )
     );
   }
 
-  public function add($) {
+  public function add($id) {
     $query = $this->build_insert(array('article_id' => $id), 'user_tokens').';';
     $result = db::query_insert($query);
     return $result;

@@ -13,11 +13,11 @@ class wikilayer extends controller {
 
     $this->geoloqi = app::getLib('geoloqi');
 
-    $this->geoloqi->init(
-      app::$config['geoloqi_client_id'],
-      app::$config['geoloqi_client_secret'],
-      site_url(array('wikilayer','index'))
-    );
+    $this->geoloqi->init(array(
+      'app_id' => app::$config['geoloqi_client_id'],
+      'app_secret' => app::$config['geoloqi_client_secret'],
+      'redirect_uri' => site_url(array('wikilayer','index'))
+    ));
     
     $this->wikisource = app::getModel('wikilayer_datasource');
     $this->wiki_hist = app::getModel('wiki_article_history');

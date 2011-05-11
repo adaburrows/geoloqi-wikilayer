@@ -6,7 +6,7 @@ class wiki_article_history extends db {
     $this->aspects = array(
       'wiki_articles' => array(
         'article_id'
-      );
+      )
     );
   }
 
