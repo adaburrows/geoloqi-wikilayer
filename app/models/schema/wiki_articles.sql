@@ -20,7 +20,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `wiki_articles` (
-  `id` char(20) NOT NULL AUTO_INCREMENT,
+  `id` char(20) NOT NULL UNIQUE,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
