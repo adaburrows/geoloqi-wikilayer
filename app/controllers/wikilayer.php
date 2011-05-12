@@ -16,7 +16,7 @@ class wikilayer extends controller {
     $geoloqi_oauth = array(
       'app_id' => app::$config['geoloqi_client_id'],
       'app_secret' => app::$config['geoloqi_client_secret'],
-      'redirect_uri' => site_url(array('wikilayer','index'))
+      'redirect_uri' => site_url(array('wikilayer','oauth'))
     );
     
     $this->geoloqi->init($geoloqi_oauth);
@@ -79,7 +79,7 @@ class wikilayer extends controller {
         'refresh'    => $this->geoloqi->refresh_token
       );
 
-      $this->user_store->add($data);
+      $this->user_tokens->add($data);
     }
 
     return($data);
