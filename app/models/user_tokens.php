@@ -6,13 +6,15 @@ class user_tokens extends db {
     $this->aspects = array(
       'user_tokens' => array(
         'id',
-        'token'
+        'access_token',
+        'expiration',
+        'refresh_token'
       )
     );
   }
 
-  public function add($id) {
-    $query = $this->build_insert(array('article_id' => $id), 'user_tokens').';';
+  public function add($data) {
+    $query = $this->build_insert($data, 'user_tokens').';';
     $result = db::query_insert($query);
     return $result;
   }
