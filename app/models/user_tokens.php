@@ -15,7 +15,7 @@ class user_tokens extends db {
 
   public function add($data) {
     $query = $this->build_insert($data, 'user_tokens').';';
-    $result = db::query_insert($query);
+    $result = db::query_ins($query);
     return $result;
   }
 
