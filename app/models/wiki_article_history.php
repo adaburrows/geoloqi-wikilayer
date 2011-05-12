@@ -11,7 +11,7 @@ class wiki_article_history extends db {
   }
 
   public function add($id) {
-    $query = $this->build_insert(array('article_id'), 'wiki_articles').';';
+    $query = $this->build_insert(array('article_id'), 'wiki_articles');
     $result = db::query_ins($query);
     return $result;
   }
