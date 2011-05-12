@@ -6,9 +6,9 @@ class user_tokens extends db {
     $this->aspects = array(
       'user_tokens' => array(
         'id',
-        'access_token',
+        'token',
         'expiration',
-        'refresh_token'
+        'refresh'
       )
     );
   }

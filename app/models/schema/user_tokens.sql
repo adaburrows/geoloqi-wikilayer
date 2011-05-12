@@ -21,9 +21,9 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `user_tokens` (
   `id` INT(20) NOT NULL AUTO_INCREMENT,
-  `access_token` CHAR(32) NOT NULL,
-  `expiration` TIMESTAMP NOT NULL,
-  `refresh_token` CHAR(32) NOT NULL,
+  `token` CHAR(32) NOT NULL,
+  `expiration` TIMESTAMP DEFAULT NULL,
+  `refresh` CHAR(32) DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
