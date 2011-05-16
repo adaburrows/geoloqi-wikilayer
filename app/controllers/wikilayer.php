@@ -5,6 +5,7 @@ class wikilayer extends controller {
   private $wikisource;
   private $wiki_hist;
   private $user_tokens;
+  private $fb;
 
   private $radius;
 
@@ -12,14 +13,21 @@ class wikilayer extends controller {
     $this->radius = 1000;
 
     $this->geoloqi = app::getLib('geoloqi');
+    $this->fb = app::getLib('facebook_graph');
 
     $geoloqi_oauth = array(
       'app_id' => app::$config['geoloqi_client_id'],
       'app_secret' => app::$config['geoloqi_client_secret'],
       'redirect_uri' => site_url(array('wikilayer','oauth'))
     );
-    
+    $fb_oauth = array(
+      'app_id' => app::$config['fb_client_id'],
+      'app_secret' => app::$config['fb_client_secret'],
+      'redirect_uri' => site_url(array('wikilayer','facebook'))
+    );
+
     $this->geoloqi->init($geoloqi_oauth);
+    $this->fb->init($fb_oauth);
     
     $this->wikisource = app::getModel('wikilayer_datasource');
     $this->wiki_hist = app::getModel('wiki_article_history');
@@ -91,8 +99,33 @@ class wikilayer extends controller {
  * adds new articles to the geoloqi layer.
  * =============================================================================
  */
-  public function _add_articles_to_layer($articles) {
+  protected function _add_articles_to_layer($articles) {
     
+  }
+
+/*
+ * wikilayer::facebook)
+ * ----------------------------------
+ * Tests my facebook auth mechanism
+ * =============================================================================
+ */
+  public function facebook() {
+    $data = array();
+    // Redirect user if we don't have a code
+    $this->fb->auth_redirect();
+
+    // If we've got the token then go ahead and process it
+    if($this->fb->token()) {
+
+      $data = array (
+        'token'      => $this->fb->access_token,
+        'expiration' => $this->fb->expiration
+      );
+
+      //$this->user_tokens->add($data);
+    }
+
+    return($data);
   }
 
 }
