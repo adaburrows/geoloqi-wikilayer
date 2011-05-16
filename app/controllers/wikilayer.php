@@ -123,7 +123,7 @@ class wikilayer extends controller {
       );
 
       //$this->user_tokens->add($data);
-      $data = $this->fb->get_relationships('jillian.burrows');
+      $data = array('data' => $this->fb->get('me'));
     }
 
     return($data);
