@@ -132,15 +132,10 @@ class wikilayer extends controller {
       $data =  array();
       $data['first'] = $this->fb->fql('SELECT uid, name, pic_square FROM user WHERE uid = me()');
       $data['second'] = $this->fb->fql('SELECT uid, name, pic_square FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())');
-      $query = <<<FQL
-SELECT uid, name, pic_square
-FROM user
-  WHERE
-    uid = me()
-  OR
-    uid IN (SELECT uid2 FROM friend WHERE uid1 IN(SELECT uid2 FROM friend WHERE uid1 = me()))
-FQL;
-      $data['third'] = $this->fb->fql($query);
+      foreach ($data['second'] as $index => $user) {
+          $users_mutual_friends = $this->fb->mutual_friends($user['uid']);
+          $data['second'][$index]['mutual_friends'] = $users_mutual_friends;
+      }
     }
 
     return($data);
