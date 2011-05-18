@@ -9,29 +9,35 @@ class wikilayer extends controller {
 
   private $radius;
 
+/*
+ * wikilayer::initialize()
+ * -----------------------
+ * Initialize common objects used
+ * =============================================================================
+ */
   public function initialize() {
     $this->radius = 1000;
 
     $this->geoloqi = app::getLib('geoloqi');
     $this->fb = app::getLib('facebook_graph');
+    $this->wikisource = app::getModel('wikilayer_datasource');
+    $this->wiki_hist = app::getModel('wiki_article_history');
+    $this->user_tokens = app::getModel('user_tokens');
 
     $geoloqi_oauth = array(
       'app_id' => app::$config['geoloqi_client_id'],
       'app_secret' => app::$config['geoloqi_client_secret'],
       'redirect_uri' => site_url(array('wikilayer','oauth'))
     );
+    $this->geoloqi->init($geoloqi_oauth);
+
     $fb_oauth = array(
       'app_id' => app::$config['fb_client_id'],
       'app_secret' => app::$config['fb_client_secret'],
       'redirect_uri' => site_url(array('wikilayer','facebook'))
     );
-
-    $this->geoloqi->init($geoloqi_oauth);
     $this->fb->init($fb_oauth);
-    
-    $this->wikisource = app::getModel('wikilayer_datasource');
-    $this->wiki_hist = app::getModel('wiki_article_history');
-    $this->user_tokens = app::getModel('user_tokens');
+
   }
 
 /*
@@ -123,7 +129,7 @@ class wikilayer extends controller {
       );
 
       //$this->user_tokens->add($data);
-      $data = json_decode($this->fb->get('me'), true);
+      $data = $this->fb->fql('SELECT uid, name, pic_square FROM user WHERE uid = me() OR uid IN (SELECT uid2 FROM friend WHERE uid1 = me())');
     }
 
     return($data);
