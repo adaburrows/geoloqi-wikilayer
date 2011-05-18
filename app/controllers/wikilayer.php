@@ -129,7 +129,18 @@ class wikilayer extends controller {
       );
 
       //$this->user_tokens->add($data);
-      $data = $this->fb->fql('SELECT uid, name, pic_square FROM user WHERE uid = me() OR uid IN (SELECT uid2 FROM friend WHERE uid1 = me())');
+      $data =  array();
+      $data['first'] = $this->fb->fql('SELECT uid, name, pic_square FROM user WHERE uid = me()');
+      $data['second'] = $this->fb->fql('SELECT uid, name, pic_square FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())');
+      $query = <<<FQL
+SELECT uid, name, pic_square
+FROM user
+  WHERE
+    uid = me()
+  OR
+    uid IN (SELECT uid2 FROM friend WHERE uid1 IN(SELECT uid2 FROM friend WHERE uid1 = me()))
+FQL;
+      $data['third'] = $this->fb->fql($query);
     }
 
     return($data);
